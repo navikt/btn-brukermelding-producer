@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val ktorVersion = "1.1.3"
-val prometheusVersion = "0.4.0"
+val ktorVersion = "1.2.5"
+val prometheusVersion = "0.7.0"
 val logbackVersion = "1.2.3"
 val logstashVersion = "5.1"
 val konfigVersion = "1.6.10.0"
@@ -37,13 +37,16 @@ dependencies {
 }
 
 application {
-    // Define the main class for the application
-    mainClassName = "no.nav.btn.AppKt"
+    mainClassName = "no.nav.btn.ApplicationKt"
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.withType<Wrapper> {
