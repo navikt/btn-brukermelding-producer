@@ -1,0 +1,19 @@
+package no.nav.btn
+
+import com.natpryce.konfig.*
+
+private val defaultProperties = ConfigurationMap(
+        mapOf(
+                "BOOTSTRAP_SERVERS_CONFIG" to "localhost:9092",
+                "CLIENT_ID_CONFIG" to "btn-brukermelding-procucer"
+        )
+)
+
+data class Configuration(
+        val serverUrl: String = config()[Key("BOOTSTRAP_SERVER_CONFIG", stringType)],
+        val clientId: String = config()[Key("CLIENT_ID_CONFIG", stringType)]
+)
+
+private fun config() = ConfigurationProperties.systemProperties() overriding
+        EnvironmentVariables overriding
+        defaultProperties
