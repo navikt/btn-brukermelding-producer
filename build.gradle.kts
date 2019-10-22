@@ -23,6 +23,7 @@ repositories {
 dependencies {
     compile(kotlin("stdlib"))
     compile("io.ktor:ktor-server-netty:$ktorVersion")
+    compile("io.ktor:ktor-gson:$ktorVersion")
     compile("io.prometheus:simpleclient_hotspot:$prometheusVersion")
     compile("io.prometheus:simpleclient_common:$prometheusVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")

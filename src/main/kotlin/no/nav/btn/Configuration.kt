@@ -4,7 +4,7 @@ import com.natpryce.konfig.*
 
 private val defaultProperties = ConfigurationMap(
         mapOf(
-                "BOOTSTRAP_SERVERS_CONFIG" to "localhost:9092",
+                "BOOTSTRAP_SERVER_CONFIG" to "localhost:9092",
                 "CLIENT_ID_CONFIG" to "btn-brukermelding-procucer"
         )
 )
