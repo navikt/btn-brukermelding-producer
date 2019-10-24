@@ -7,17 +7,28 @@ val logstashVersion = "5.1"
 val konfigVersion = "1.6.10.0"
 val kafkaVersion = "2.3.0"
 val confluentVersion = "5.3.0"
+val commonVersion = "7"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.50"
     application
 }
 
+val githubUser: String by project
+val githubPassword: String by project
+
 repositories {
     jcenter()
     mavenCentral()
     maven("https://dl.bintray.com/kotlin/ktor")
     maven("http://packages.confluent.io/maven/")
+    maven {
+        url = uri("https://maven.pkg.github.com/navikt/btn-common")
+        credentials {
+            username = githubUser
+            password = githubPassword
+        }
+    }
 }
 
 dependencies {
@@ -31,6 +42,7 @@ dependencies {
     compile("com.natpryce:konfig:$konfigVersion")
     compile("org.apache.kafka:kafka-clients:$kafkaVersion")
     compile("io.confluent:kafka-json-serializer:$confluentVersion")
+    compile("no.nav.btn:btn-common:$commonVersion")
 
     testCompile("org.jetbrains.kotlin:kotlin-test")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
