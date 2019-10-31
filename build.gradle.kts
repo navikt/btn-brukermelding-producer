@@ -1,13 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val ktorVersion = "1.2.5"
-val prometheusVersion = "0.7.0"
-val logbackVersion = "1.2.3"
-val logstashVersion = "5.1"
-val konfigVersion = "1.6.10.0"
-val kafkaVersion = "2.3.0"
-val confluentVersion = "5.3.0"
-val commonVersion = "7"
+val btnBomVersion = "3"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.50"
@@ -32,20 +25,21 @@ repositories {
 }
 
 dependencies {
-    compile(kotlin("stdlib"))
-    compile("io.ktor:ktor-server-netty:$ktorVersion")
-    compile("io.ktor:ktor-gson:$ktorVersion")
-    compile("io.prometheus:simpleclient_hotspot:$prometheusVersion")
-    compile("io.prometheus:simpleclient_common:$prometheusVersion")
-    compile("ch.qos.logback:logback-classic:$logbackVersion")
-    compile("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
-    compile("com.natpryce:konfig:$konfigVersion")
-    compile("org.apache.kafka:kafka-clients:$kafkaVersion")
-    compile("io.confluent:kafka-json-serializer:$confluentVersion")
-    compile("no.nav.btn:btn-common:$commonVersion")
+    implementation(kotlin("stdlib"))
+    implementation(platform("no.nav.btn:btn-bom:$btnBomVersion"))
+    implementation("io.ktor:ktor-server-netty")
+    implementation("io.ktor:ktor-gson")
+    implementation("io.prometheus:simpleclient_hotspot")
+    implementation("io.prometheus:simpleclient_common")
+    implementation("ch.qos.logback:logback-classic")
+    implementation("net.logstash.logback:logstash-logback-encoder")
+    implementation("com.natpryce:konfig")
+    implementation("org.apache.kafka:kafka-clients")
+    implementation("io.confluent:kafka-json-serializer")
+    implementation("no.nav.btn:btn-common")
 
-    testCompile("org.jetbrains.kotlin:kotlin-test")
-    testCompile("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 application {

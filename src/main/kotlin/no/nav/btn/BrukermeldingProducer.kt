@@ -1,6 +1,8 @@
 package no.nav.btn
 
 import io.confluent.kafka.serializers.KafkaJsonSerializer
+import no.nav.btn.packet.Breadcrumb
+import no.nav.btn.packet.Packet
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
