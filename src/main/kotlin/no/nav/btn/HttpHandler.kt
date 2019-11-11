@@ -13,6 +13,12 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import no.nav.btn.kafkaservices.Source
+import no.nav.btn.packet.Breadcrumb
+import no.nav.btn.packet.Packet
+
+private const val CLIENT_ID = "btn-brukermelding-producer"
+private val producer = Source(TOPIC_MELDING, CLIENT_ID)
 
 fun createHttpServer(applicationState: ApplicationState): ApplicationEngine = embeddedServer(Netty, 7070) {
     install(ContentNegotiation) {
@@ -26,7 +32,7 @@ fun createHttpServer(applicationState: ApplicationState): ApplicationEngine = em
         naisRoutes(readinessCheck = { applicationState.initialized }, livenessCheck = { applicationState.running })
         route("/") {
             post {
-                sendMessageToKafka(call.receive())
+                producer.producePacket(mapMessageToPacket(call.receive()))
                 call.respond(HttpStatusCode.OK)
             }
         }
@@ -34,3 +40,9 @@ fun createHttpServer(applicationState: ApplicationState): ApplicationEngine = em
 
     applicationState.initialized = true
 }
+
+private fun mapMessageToPacket(message: Message): Packet = Packet(
+        breadcrumbs = listOf(Breadcrumb(CLIENT_ID)),
+        timestamp = message.timestamp,
+        melding = message.message
+)

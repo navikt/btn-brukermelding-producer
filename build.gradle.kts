@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val btnBomVersion = "3"
+val btnBomVersion = "5"
+
+val mainClass = "no.nav.btn.ApplicationKt"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.50"
-    application
 }
 
 val githubUser: String by project
@@ -33,17 +34,10 @@ dependencies {
     implementation("io.prometheus:simpleclient_common")
     implementation("ch.qos.logback:logback-classic")
     implementation("net.logstash.logback:logstash-logback-encoder")
-    implementation("com.natpryce:konfig")
-    implementation("org.apache.kafka:kafka-clients")
-    implementation("io.confluent:kafka-json-serializer")
     implementation("no.nav.btn:btn-common")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-}
-
-application {
-    mainClassName = "no.nav.btn.ApplicationKt"
 }
 
 java {
@@ -57,4 +51,23 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Wrapper> {
     gradleVersion = "5.6.3"
+}
+
+tasks.named<Jar>("jar") {
+    baseName = "app"
+
+    manifest {
+        attributes["Main-Class"] = mainClass
+        attributes["Class-Path"] = configurations["compile"].joinToString(separator = " ") {
+            it.name
+        }
+    }
+
+    doLast {
+        configurations["compile"].forEach {
+            val file = File("$buildDir/libs/${it.name}")
+            if (!file.exists())
+                it.copyTo(file)
+        }
+    }
 }
