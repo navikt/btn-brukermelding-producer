@@ -34,5 +34,3 @@ spec:
   prometheus:
     enabled: true
     path: /metrics
-  vault:
-    enabled: true
