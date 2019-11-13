@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 val btnBomVersion = "5"
 val btnCommonVersion = "17"
@@ -7,6 +8,7 @@ val mainClass = "no.nav.btn.ApplicationKt"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.50"
+    id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
 val githubUser: String by project
@@ -54,21 +56,14 @@ tasks.withType<Wrapper> {
     gradleVersion = "5.6.3"
 }
 
-tasks.named<Jar>("jar") {
-    baseName = "app"
-
+tasks.withType<ShadowJar> {
+    archiveBaseName.set("app")
+    archiveClassifier.set("")
     manifest {
-        attributes["Main-Class"] = mainClass
-        attributes["Class-Path"] = configurations["compile"].joinToString(separator = " ") {
-            it.name
-        }
-    }
-
-    doLast {
-        configurations["compile"].forEach {
-            val file = File("$buildDir/libs/${it.name}")
-            if (!file.exists())
-                it.copyTo(file)
-        }
+        attributes(
+                mapOf(
+                        "Main-Class" to mainClass
+                )
+        )
     }
 }
