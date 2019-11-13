@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val btnBomVersion = "5"
+val btnCommonVersion = "17"
 
 val mainClass = "no.nav.btn.ApplicationKt"
 
@@ -34,7 +35,7 @@ dependencies {
     implementation("io.prometheus:simpleclient_common")
     implementation("ch.qos.logback:logback-classic")
     implementation("net.logstash.logback:logstash-logback-encoder")
-    implementation("no.nav.btn:btn-common")
+    implementation("no.nav.btn:btn-common:$btnCommonVersion")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
